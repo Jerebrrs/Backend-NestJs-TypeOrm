@@ -1,4 +1,4 @@
-import { log } from 'console';
+
 import 'dotenv/config';
 import * as joi from 'joi';
 

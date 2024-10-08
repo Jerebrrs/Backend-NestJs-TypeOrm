@@ -5,7 +5,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const logger = new Logger();
+  const logger = new Logger('Main');
 
   app.setGlobalPrefix('api');
 
@@ -15,7 +15,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  logger.log('Server runing is PORT:' + envs.port);
+
   await app.listen(envs.port);
+  logger.log('Server runing is PORT:' + envs.port);
 }
 bootstrap();
