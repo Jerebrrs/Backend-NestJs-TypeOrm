@@ -1,4 +1,3 @@
-
 import 'dotenv/config';
 import * as joi from 'joi';
 
@@ -9,15 +8,20 @@ interface EnvVars {
   DB_NAME: string;
   DB_USER: string;
   DB_PASSWORD: string;
+  JWT_SECRET: string;
 }
 
-const envShema = joi.object({ PORT: joi.number().required(),
+const envShema = joi
+  .object({
+    PORT: joi.number().required(),
     DB_HOST: joi.string().required(),
     DB_PORT: joi.number().required(),
     DB_NAME: joi.string().required(),
     DB_USER: joi.string().required(),
     DB_PASSWORD: joi.string().required(),
-}).unknown(true);
+    JWT_SECRET: joi.string().required(),
+  })
+  .unknown(true);
 
 const { error, value } = envShema.validate({ ...process.env });
 
@@ -34,4 +38,5 @@ export const envs = {
   dbName: envVars.DB_NAME,
   dbUsername: envVars.DB_USER,
   dbPassword: envVars.DB_PASSWORD,
+  jwtSecret: envVars.JWT_SECRET,
 };

@@ -5,6 +5,8 @@
 
 postgres/
 
+/src/detabase
+
 # Logs
 logs
 *.log
