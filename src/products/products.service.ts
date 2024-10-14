@@ -11,6 +11,7 @@ import { DataSource, Repository } from 'typeorm';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { validate as isUUID } from 'uuid';
 import { ProductImage, Product } from './entities';
+import { User } from 'src/auth/entities/auth.entity';
 
 @Injectable()
 export class ProductsService {
@@ -25,7 +26,7 @@ export class ProductsService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, user: User) {
     try {
       const { images = [], ...rest } = createProductDto;
 
@@ -34,6 +35,7 @@ export class ProductsService {
         images: images.map((image) =>
           this.productImageRepositorio.create({ url: image }),
         ),
+        user,
       }); // creo en memoria
 
       await this.productRepository.save(product); //grabo en mi base de datos.
@@ -55,7 +57,7 @@ export class ProductsService {
       },
     });
 
-    return product.map(({ images, ...rest }) => ({
+    return product.map(({ images, user, ...rest }) => ({
       ...rest,
       images: images.map((img) => img.url),
     }));
@@ -143,7 +145,8 @@ export class ProductsService {
     );
   }
 
-  async deleteAllProducts() { //eliminar todos los productos de mi base de datos. 
+  async deleteAllProducts() {
+    //eliminar todos los productos de mi base de datos.
     const query = this.productImageRepositorio.createQueryBuilder('product');
 
     try {

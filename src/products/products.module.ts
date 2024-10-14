@@ -6,10 +6,11 @@ import {
   productsProviders,
 } from './providers/products.providers';
 import { DatabaseModule } from 'src/database/database.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [ProductsController],
   providers: [...productsProviders, ...productsImageProviders, ProductsService],
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, AuthModule],
 })
 export class ProductsModule {}

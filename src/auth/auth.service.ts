@@ -74,4 +74,11 @@ export class AuthService {
 
     throw new InternalServerErrorException('Pleace Cheks server errors.');
   }
+
+  async checkUser(user: User) {
+    return {
+      ...user,
+      token: this.jwtToken({ id: user.id }),
+    };
+  }
 }

@@ -29,6 +29,12 @@ export class AuthController {
     return this.authService.login(loginUserDto);
   }
 
+  @Get('verify-token')
+  @Auth()
+  checkAuth(@GetUser() user: User) {
+    return this.authService.checkUser(user);
+  }
+
   @Get('private')
   @UseGuards(AuthGuard())
   privateRouter(
